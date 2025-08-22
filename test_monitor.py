@@ -174,7 +174,7 @@ class TestSystemMonitor(unittest.TestCase):
         mock_server = MagicMock()
         mock_smtp.return_value.__enter__.return_value = mock_server
         
-        result = self.monitor.send_email_thunderbird(
+        self.monitor.send_email_thunderbird(
             "Test Subject",
             "Test Body",
             None

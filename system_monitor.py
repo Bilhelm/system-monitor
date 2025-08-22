@@ -7,7 +7,6 @@ Author: William Cloutman
 """
 
 import os
-import sys
 import json
 import psutil
 import socket
@@ -21,19 +20,17 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 import logging
-from typing import Dict, List, Tuple
+from typing import Dict, List
 try:
     from typing import List, Dict
 except ImportError:
     List = list
     Dict = dict
-import re
 
 # ODF (OpenDocument Format) generation
-from odf import text, teletype
 from odf.opendocument import OpenDocumentText
-from odf.style import Style, TextProperties, ParagraphProperties
-from odf.text import H, P, Span, List, ListItem
+from odf.style import Style, TextProperties
+from odf.text import H, P, List, ListItem
 
 class SystemMonitor:
     """Monitor system health and generate reports."""
@@ -87,15 +84,31 @@ class SystemMonitor:
         log_dir = Path.home() / 'Documents' / 'system-monitor-logs'
         log_dir.mkdir(exist_ok=True)
         
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(log_dir / f"monitor_{datetime.now().strftime('%Y%m%d')}.log"),
-                logging.StreamHandler()
-            ]
+        # Clear any existing handlers to avoid file handle leaks
+        logger = logging.getLogger(__name__)
+        logger.handlers.clear()
+        
+        # Create file handler
+        file_handler = logging.FileHandler(
+            log_dir / f"monitor_{datetime.now().strftime('%Y%m%d')}.log"
         )
-        self.logger = logging.getLogger(__name__)
+        file_handler.setLevel(logging.INFO)
+        
+        # Create console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+        
+        # Create formatter
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        console_handler.setFormatter(formatter)
+        
+        # Add handlers to logger
+        logger.addHandler(file_handler)
+        logger.addHandler(console_handler)
+        logger.setLevel(logging.INFO)
+        
+        self.logger = logger
     
     def get_system_info(self):
         """Collect current system information."""
@@ -119,7 +132,8 @@ class SystemMonitor:
             temps = psutil.sensors_temperatures()
             if temps:
                 info['temperature'] = self.get_temperature_info(temps)
-        except:
+        except (AttributeError, NotImplementedError):
+            # Not all systems support temperature sensors
             pass
         
         return info
@@ -233,7 +247,7 @@ class SystemMonitor:
                     timeout=5
                 )
                 services[service] = result.stdout.strip() == 'active'
-            except:
+            except (subprocess.TimeoutExpired, FileNotFoundError, subprocess.SubprocessError):
                 services[service] = None
         return services
     
