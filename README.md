@@ -1,6 +1,14 @@
 # System Monitor & Report Generator 📊
 
-A FOSS system monitoring tool for Ubuntu/Linux that generates LibreOffice-compatible reports and integrates with Thunderbird for email alerts.
+[![System Monitor CI/CD](https://github.com/Bilhelm/system-monitor/workflows/System%20Monitor%20CI/CD/badge.svg)](https://github.com/Bilhelm/system-monitor/actions)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![GPG Signed](https://img.shields.io/badge/GPG-Signed-green)](SECURITY.md)
+[![Platform](https://img.shields.io/badge/platform-Ubuntu%20%7C%20Linux-orange)](https://ubuntu.com/)
+[![Dependencies](https://img.shields.io/badge/dependencies-psutil%20%7C%20odfpy-blue)](requirements.txt)
+[![Security](https://img.shields.io/badge/security-bandit-yellow)](https://github.com/PyCQA/bandit)
+
+A professional FOSS system monitoring tool for Ubuntu/Linux that generates LibreOffice-compatible reports and integrates with Thunderbird for email alerts.
 
 ## Features
 
@@ -169,6 +177,16 @@ Pull requests welcome! This is a FOSS project focused on Ubuntu/Linux compatibil
 ## License
 
 MIT License - Free for personal and commercial use
+
+## Support This Project ⚡
+
+This professional monitoring solution is developed and maintained by an individual developer. If it saves you time or money, consider supporting its development:
+
+**⚡ Lightning Address:** `billhelm@strike.me`
+
+Your contributions help offset development costs (including AI tooling subscriptions) and ensure continued improvements. Donors receive priority support for issues and feature requests.
+
+*Donations are completely optional and do not affect the open-source nature of this project.*
 
 ## Author
 
